@@ -1,0 +1,283 @@
+
+> new_web@0.1.0 lint
+> eslint
+
+
+/Users/apple/Desktop/new_web/components/Collectible.tsx
+  18:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/apple/Desktop/new_web/components/Collectible.tsx:18:7
+  16 |   useEffect(() => {
+  17 |     if (isBursting && !bursting) {
+> 18 |       setBursting(true);
+     |       ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  19 |       triggerBurstAnim(ref.current, onBurstComplete);
+  20 |     } else if (!isBursting) {
+  21 |       triggerCollectibleHoverAnim(ref.current);  react-hooks/set-state-in-effect
+
+/Users/apple/Desktop/new_web/components/MapView.tsx
+   13:31  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+   75:8   warning  React Hook useEffect has a missing dependency: 'userLocation'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/exhaustive-deps
+   95:18  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/apple/Desktop/new_web/components/MapView.tsx:95:18
+  93 |              const dist = calculateDistance(userLocation.lat, userLocation.lng, currentTarget.lat, currentTarget.lng);
+  94 |              if (dist <= COLLECTION_RADIUS_METERS) {
+> 95 |                  setBurstingIds(prev => new Set(prev).add(currentTarget.id));
+     |                  ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  96 |                  setRouteData(null);
+  97 |              }
+  98 |         }  react-hooks/set-state-in-effect
+  152:38  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx
+   195:3   error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:195:3
+  193 |
+  194 |   const onViewportChangeRef = useRef(onViewportChange);
+> 195 |   onViewportChangeRef.current = onViewportChange;
+      |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ Cannot update ref during render
+  196 |
+  197 |   const mapStyles = useMemo(
+  198 |     () => ({                                                                                                                                             react-hooks/refs
+   397:3   error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:397:3
+  395 |     onDragEnd,
+  396 |   });
+> 397 |   callbacksRef.current = {
+      |   ^^^^^^^^^^^^^^^^^^^^ Cannot update ref during render
+  398 |     onClick,
+  399 |     onMouseEnter,
+  400 |     onMouseLeave,                                                                                                                                                                                                       react-hooks/refs
+   419:60  error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:419:60
+  417 |       callbacksRef.current.onMouseLeave?.(e);
+  418 |
+> 419 |     markerInstance.getElement()?.addEventListener("click", handleClick);
+      |                                                            ^^^^^^^^^^^ Passing a ref to a function may read its value during render
+  420 |     markerInstance
+  421 |       .getElement()
+  422 |       ?.addEventListener("mouseenter", handleMouseEnter);  react-hooks/refs
+   422:40  error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:422:40
+  420 |     markerInstance
+  421 |       .getElement()
+> 422 |       ?.addEventListener("mouseenter", handleMouseEnter);
+      |                                        ^^^^^^^^^^^^^^^^ Passing a ref to a function may read its value during render
+  423 |     markerInstance
+  424 |       .getElement()
+  425 |       ?.addEventListener("mouseleave", handleMouseLeave);                                       react-hooks/refs
+   425:40  error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:425:40
+  423 |     markerInstance
+  424 |       .getElement()
+> 425 |       ?.addEventListener("mouseleave", handleMouseLeave);
+      |                                        ^^^^^^^^^^^^^^^^ Passing a ref to a function may read its value during render
+  426 |
+  427 |     const handleDragStart = () => {
+  428 |       const lngLat = markerInstance.getLngLat();                                                   react-hooks/refs
+   440:36  error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:440:36
+  438 |     };
+  439 |
+> 440 |     markerInstance.on("dragstart", handleDragStart);
+      |                                    ^^^^^^^^^^^^^^^ Passing a ref to a function may read its value during render
+  441 |     markerInstance.on("drag", handleDrag);
+  442 |     markerInstance.on("dragend", handleDragEnd);
+  443 |                                                                                      react-hooks/refs
+   441:31  error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:441:31
+  439 |
+  440 |     markerInstance.on("dragstart", handleDragStart);
+> 441 |     markerInstance.on("drag", handleDrag);
+      |                               ^^^^^^^^^^ Passing a ref to a function may read its value during render
+  442 |     markerInstance.on("dragend", handleDragEnd);
+  443 |
+  444 |     return markerInstance;                                                                            react-hooks/refs
+   442:34  error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:442:34
+  440 |     markerInstance.on("dragstart", handleDragStart);
+  441 |     markerInstance.on("drag", handleDrag);
+> 442 |     markerInstance.on("dragend", handleDragEnd);
+      |                                  ^^^^^^^^^^^^^ Passing a ref to a function may read its value during render
+  443 |
+  444 |     return markerInstance;
+  445 |                                                                      react-hooks/refs
+   581:9   error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:581:9
+  579 |     const prev = prevPopupOptions.current;
+  580 |
+> 581 |     if (prev.offset !== popupOptions.offset) {
+      |         ^^^^^^^^^^^ Cannot access ref value during render
+  582 |       popup.setOffset(popupOptions.offset ?? 16);
+  583 |     }
+  584 |     if (prev.maxWidth !== popupOptions.maxWidth && popupOptions.maxWidth) {                                                                       react-hooks/refs
+   584:9   error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:584:9
+  582 |       popup.setOffset(popupOptions.offset ?? 16);
+  583 |     }
+> 584 |     if (prev.maxWidth !== popupOptions.maxWidth && popupOptions.maxWidth) {
+      |         ^^^^^^^^^^^^^ Cannot access ref value during render
+  585 |       popup.setMaxWidth(popupOptions.maxWidth ?? "none");
+  586 |     }
+  587 |                                                                                               react-hooks/refs
+   588:5   error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:588:5
+  586 |     }
+  587 |
+> 588 |     prevPopupOptions.current = popupOptions;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^ Cannot update ref during render
+  589 |   }
+  590 |
+  591 |   const handleClose = () => popup.remove();                                                                                                                                                                                               react-hooks/refs
+   660:9   error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:660:9
+  658 |     const prev = prevTooltipOptions.current;
+  659 |
+> 660 |     if (prev.offset !== popupOptions.offset) {
+      |         ^^^^^^^^^^^ Cannot access ref value during render
+  661 |       tooltip.setOffset(popupOptions.offset ?? 16);
+  662 |     }
+  663 |     if (prev.maxWidth !== popupOptions.maxWidth && popupOptions.maxWidth) {                                                                   react-hooks/refs
+   663:9   error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:663:9
+  661 |       tooltip.setOffset(popupOptions.offset ?? 16);
+  662 |     }
+> 663 |     if (prev.maxWidth !== popupOptions.maxWidth && popupOptions.maxWidth) {
+      |         ^^^^^^^^^^^^^ Cannot access ref value during render
+  664 |       tooltip.setMaxWidth(popupOptions.maxWidth ?? "none");
+  665 |     }
+  666 |                                                                                           react-hooks/refs
+   667:5   error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:667:5
+  665 |     }
+  666 |
+> 667 |     prevTooltipOptions.current = popupOptions;
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^ Cannot update ref during render
+  668 |   }
+  669 |
+  670 |   return createPortal(                                                                                                                                                                                                                react-hooks/refs
+   956:3   error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:956:3
+  954 |   const popupOptionsRef = useRef(popupOptions);
+  955 |   const onCloseRef = useRef(onClose);
+> 956 |   onCloseRef.current = onClose;
+      |   ^^^^^^^^^^^^^^^^^^ Cannot update ref during render
+  957 |   const container = useMemo(() => document.createElement("div"), []);
+  958 |
+  959 |   const popup = useMemo(() => {                                                                              react-hooks/refs
+  1001:9   error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:1001:9
+   999 |     }
+  1000 |
+> 1001 |     if (prev.offset !== popupOptions.offset) {
+       |         ^^^^^^^^^^^ Cannot access ref value during render
+  1002 |       popup.setOffset(popupOptions.offset ?? 16);
+  1003 |     }
+  1004 |     if (prev.maxWidth !== popupOptions.maxWidth && popupOptions.maxWidth) {                                                                                                    react-hooks/refs
+  1004:9   error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:1004:9
+  1002 |       popup.setOffset(popupOptions.offset ?? 16);
+  1003 |     }
+> 1004 |     if (prev.maxWidth !== popupOptions.maxWidth && popupOptions.maxWidth) {
+       |         ^^^^^^^^^^^^^ Cannot access ref value during render
+  1005 |       popup.setMaxWidth(popupOptions.maxWidth ?? "none");
+  1006 |     }
+  1007 |     popupOptionsRef.current = popupOptions;                                           react-hooks/refs
+  1007:5   error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:1007:5
+  1005 |       popup.setMaxWidth(popupOptions.maxWidth ?? "none");
+  1006 |     }
+> 1007 |     popupOptionsRef.current = popupOptions;
+       |     ^^^^^^^^^^^^^^^^^^^^^^^ Cannot update ref during render
+  1008 |   }
+  1009 |
+  1010 |   const handleClose = () => {                                                                                                                                             react-hooks/refs
+  1366:3   error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/apple/Desktop/new_web/components/ui/map.tsx:1366:3
+  1364 |
+  1365 |   const latestRef = useRef({ data, onClick, onHover });
+> 1366 |   latestRef.current = { data, onClick, onHover };
+       |   ^^^^^^^^^^^^^^^^^ Cannot update ref during render
+  1367 |
+  1368 |   // Add source and layers on mount.
+  1369 |   useEffect(() => {                                                                                                                                react-hooks/refs
+
+/Users/apple/Desktop/new_web/lib/animation.ts
+  2:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/apple/Desktop/new_web/store/useGameStore.ts
+  14:14  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  19:24  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 27 problems (26 errors, 1 warning)
+
