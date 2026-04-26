@@ -5,6 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { createPortal } from 'react-dom';
 import { useLocationStore } from '../store/useLocationStore';
 import { useGameStore } from '../store/useGameStore';
+import { useAvatarStore } from '../store/useAvatarStore';
 import { UserMarker } from './UserMarker';
 import { CollectibleNode } from './Collectible';
 import { calculateDistance, COLLECTION_RADIUS_METERS } from '../lib/map';
@@ -192,6 +193,8 @@ export const MapView = () => {
     collectItem, setCurrentTarget, setRouteSetForId,
     zones, setZones, territories, setTerritories,
   } = useGameStore();
+
+  const { addToInventory } = useAvatarStore();
 
   const [userMarkerEl, setUserMarkerEl] = useState<HTMLElement | null>(null);
   const [collectibleEls, setCollectibleEls] = useState<Record<string, HTMLElement>>({});
@@ -822,12 +825,18 @@ export const MapView = () => {
   }, [collectibles, burstingIds]);
 
   // ─── Handlers ─────────────────────────────────────────────────────────────
-  const handleBurstComplete = (id: string) => {
-    collectItem(id);
-    colMapMarkers.current[id]?.remove();
-    delete colMapMarkers.current[id];
-    setBurstingIds(prev => { const n = new Set(prev); n.delete(id); return n; });
-    setCollectibleEls(prev => { const n = { ...prev }; delete n[id]; return n; });
+  const handleBurstComplete = (col: typeof collectibles[number]) => {
+    addToInventory({
+      avatar_id: col.avatarId,
+      unlock_time: Date.now(),
+      rarity: col.rarity,
+      level_points: col.points
+    });
+    collectItem(col.id);
+    colMapMarkers.current[col.id]?.remove();
+    delete colMapMarkers.current[col.id];
+    setBurstingIds(prev => { const n = new Set(prev); n.delete(col.id); return n; });
+    setCollectibleEls(prev => { const n = { ...prev }; delete n[col.id]; return n; });
   };
 
   const handleTargetSelect = (col: { id: string; lat: number; lng: number }) => {
@@ -878,9 +887,11 @@ export const MapView = () => {
             key={col.id}
             id={col.id}
             points={col.points}
+            rarity={col.rarity}
+            avatarId={col.avatarId}
             onClick={() => handleTargetSelect(col)}
             isBursting={burstingIds.has(col.id)}
-            onBurstComplete={() => handleBurstComplete(col.id)}
+            onBurstComplete={() => handleBurstComplete(col)}
           />,
           el
         );

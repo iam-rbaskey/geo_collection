@@ -1,46 +1,52 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
 import { triggerBurstAnim } from '../lib/animation';
+import { getAvatarById, RARITY_COLOR, RARITY_GLOW } from '../lib/avatars';
+import type { AvatarRarity } from '../lib/avatars';
 
 interface CollectibleNodeProps {
   id: string;
   points: number;
+  rarity: AvatarRarity;
+  avatarId: string;
   isBursting: boolean;
   onBurstComplete: () => void;
   onClick: () => void;
 }
 
-/** Color + label by point tier */
-const tierStyle = (pts: number) => {
-  if (pts >= 75) return { color: '#f59e0b', label: '⭐', glow: '#f59e0b' }; // legendary
-  if (pts >= 50) return { color: '#a855f7', label: '💎', glow: '#a855f7' }; // rare
-  if (pts >= 35) return { color: '#3b82f6', label: '🔷', glow: '#3b82f6' }; // uncommon
-  if (pts >= 20) return { color: '#00ffd5', label: '●', glow: '#00ffd5' }; // common+
-  return { color: '#94a3b8', label: '●', glow: '#94a3b8' };                 // common
-};
-
 export const CollectibleNode: React.FC<CollectibleNodeProps> = ({
-  points, isBursting, onBurstComplete, onClick,
+  points, rarity, avatarId, isBursting, onBurstComplete, onClick,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const animTriggered = useRef(false);
   const [showPopup, setShowPopup] = useState(false);
-  const { color, glow } = tierStyle(points);
 
-  // Idle pulse via CSS - removed unused label variable
+  const color = RARITY_COLOR[rarity];
+  const glow  = RARITY_GLOW[rarity];
+  const def   = getAvatarById(avatarId);
+  const emoji = def?.emoji ?? '●';
+
+  // Shared keyframes
   useEffect(() => {
-    if (!document.getElementById('col-anim-style')) {
-      const s = document.createElement('style');
-      s.id = 'col-anim-style';
-      s.textContent = `
-        @keyframes pts-pop {
-          0%   { opacity: 1; transform: translate(-50%, 0)   scale(1); }
-          60%  { opacity: 1; transform: translate(-50%, -28px) scale(1.2); }
-          100% { opacity: 0; transform: translate(-50%, -44px) scale(0.9); }
-        }
-      `;
-      document.head.appendChild(s);
-    }
+    if (document.getElementById('col-anim-style')) return;
+    const s = document.createElement('style');
+    s.id = 'col-anim-style';
+    s.textContent = `
+      @keyframes pts-pop {
+        0%   { opacity: 1; transform: translate(-50%, 0)    scale(1);   }
+        60%  { opacity: 1; transform: translate(-50%, -28px) scale(1.2); }
+        100% { opacity: 0; transform: translate(-50%, -44px) scale(0.9); }
+      }
+      @keyframes col-float {
+        0%, 100% { transform: translateY(0px); }
+        50%       { transform: translateY(-4px); }
+      }
+      @keyframes col-idle-pulse {
+        0%, 100% { box-shadow: 0 0 10px 2px var(--col-glow); }
+        50%       { box-shadow: 0 0 22px 6px var(--col-glow); }
+      }
+    `;
+    document.head.appendChild(s);
   }, []);
 
   useEffect(() => {
@@ -58,13 +64,11 @@ export const CollectibleNode: React.FC<CollectibleNodeProps> = ({
       {showPopup && (
         <div style={{
           position: 'absolute',
-          bottom: '100%',
-          left: '50%',
+          bottom: '100%', left: '50%',
           whiteSpace: 'nowrap',
           background: 'rgba(14,20,27,0.9)',
-          color: color,
-          fontSize: 13,
-          fontWeight: 700,
+          color,
+          fontSize: 13, fontWeight: 700,
           padding: '3px 8px',
           borderRadius: 12,
           border: `1px solid ${color}`,
@@ -76,36 +80,48 @@ export const CollectibleNode: React.FC<CollectibleNodeProps> = ({
         </div>
       )}
 
-      {/* Collectible dot */}
+      {/* Avatar marker */}
       <div
         ref={ref}
         onClick={onClick}
-        title={`${points} pts`}
+        title={`${def?.label ?? 'Avatar'} — ${points} pts`}
         style={{
-          width: 26,
-          height: 26,
+          width: 42, height: 42,
           borderRadius: '50%',
-          background: color,
-          boxShadow: `0 0 12px 4px ${glow}55, 0 0 4px 1px ${glow}`,
+          background: `${color}22`,
+          border: `2.5px solid ${color}cc`,
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: 11,
-          border: `2px solid ${color}cc`,
+          fontSize: 22,
+          position: 'relative',
+          animation: 'col-float 3s ease-in-out infinite',
+          /* CSS custom property for glow animation */
+          ['--col-glow' as string]: `${glow}66`,
+          boxShadow: `0 0 14px 3px ${glow}44, 0 0 4px 1px ${glow}`,
         }}
       >
-        {/* Point badge */}
+        {emoji}
+
+        {/* Rarity ring pulse */}
+        <div style={{
+          position: 'absolute', inset: -4,
+          borderRadius: '50%',
+          border: `1.5px solid ${color}55`,
+          animation: 'col-idle-pulse 2s ease-in-out infinite',
+          pointerEvents: 'none',
+        }} />
+
+        {/* Points badge */}
         <div style={{
           position: 'absolute',
-          top: -10,
-          left: '50%',
+          top: -11, left: '50%',
           transform: 'translateX(-50%)',
-          background: 'rgba(14,20,27,0.9)',
-          color: color,
-          fontSize: 9,
-          fontWeight: 800,
-          padding: '1px 4px',
+          background: 'rgba(14,20,27,0.92)',
+          color,
+          fontSize: 9, fontWeight: 800,
+          padding: '1px 5px',
           borderRadius: 6,
           border: `1px solid ${color}88`,
           whiteSpace: 'nowrap',

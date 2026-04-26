@@ -1,4 +1,5 @@
 import { snapToNearestRoad } from './routing';
+import { pickRandomCollectibleAvatar, RARITY_POINTS } from './avatars';
 
 // Constants
 export const DEFAULT_RADIUS_METERS = 1000;
@@ -16,15 +17,6 @@ export const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2
     Math.cos(lat2 * Math.PI / 180) *
     Math.sin(dLon / 2) ** 2;
   return EARTH_RADIUS_KM * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 1000;
-};
-
-/** Points awarded based on walking distance tiers */
-export const pointsForDistance = (meters: number): number => {
-  if (meters < 150)  return 10;
-  if (meters < 300)  return 20;
-  if (meters < 500)  return 35;
-  if (meters < 750)  return 50;
-  return 75;
 };
 
 /** Raw random coordinate within radius */
@@ -45,11 +37,11 @@ export const generateRandomLocationWithinRadius = (
 };
 
 /**
- * Generate road-snapped collectibles.
+ * Generate road-snapped collectibles, each assigned a random avatar.
  * Each item:
  *  1. Randomly placed within radius
  *  2. Snapped to nearest OSRM road node
- *  3. Assigned points based on actual distance from the user
+ *  3. Assigned a random avatar (rarity-weighted) → points from rarity table
  */
 export const generateCollectibles = async (
   centerLat: number,
@@ -65,6 +57,8 @@ export const generateCollectibles = async (
   const results = await Promise.all(
     raws.map(async ({ raw, i }) => {
       const coord = await snapToNearestRoad(raw.lng, raw.lat);
+      const avatar = pickRandomCollectibleAvatar();
+      const points = RARITY_POINTS[avatar.rarity];
       const dist = calculateDistance(centerLat, centerLng, coord.lat, coord.lng);
       return {
         id: `col-${Date.now()}-${i}`,
@@ -72,7 +66,9 @@ export const generateCollectibles = async (
         lng: coord.lng,
         collected: false,
         distanceMeters: Math.round(dist),
-        points: pointsForDistance(dist),
+        points,
+        avatarId: avatar.avatar_id,
+        rarity: avatar.rarity,
       };
     })
   );
