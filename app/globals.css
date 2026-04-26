@@ -104,8 +104,24 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Prevent overscroll bounce on iOS */
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    /* Prevent text selection on mobile */
+    -webkit-user-select: none;
+    user-select: none;
+    /* Prevent callout on long press */
+    -webkit-touch-callout: none;
   }
   html {
     @apply font-sans;
+    /* Support for safe area insets */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  /* Mobile viewport height fix */
+  @supports (height: 100dvh) {
+    html, body {
+      height: 100dvh;
+    }
   }
 }

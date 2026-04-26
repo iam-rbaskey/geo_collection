@@ -25,18 +25,14 @@ export const CollectibleNode: React.FC<CollectibleNodeProps> = ({
   const ref = useRef<HTMLDivElement>(null);
   const animTriggered = useRef(false);
   const [showPopup, setShowPopup] = useState(false);
-  const { color, label, glow } = tierStyle(points);
+  const { color, glow } = tierStyle(points);
 
-  // Idle pulse via CSS
+  // Idle pulse via CSS - removed unused label variable
   useEffect(() => {
     if (!document.getElementById('col-anim-style')) {
       const s = document.createElement('style');
       s.id = 'col-anim-style';
       s.textContent = `
-        @keyframes col-pulse {
-          0%, 100% { transform: scale(1);   opacity: 0.9; }
-          50%       { transform: scale(1.2); opacity: 1; }
-        }
         @keyframes pts-pop {
           0%   { opacity: 1; transform: translate(-50%, 0)   scale(1); }
           60%  { opacity: 1; transform: translate(-50%, -28px) scale(1.2); }
@@ -96,7 +92,6 @@ export const CollectibleNode: React.FC<CollectibleNodeProps> = ({
           alignItems: 'center',
           justifyContent: 'center',
           fontSize: 11,
-          animation: 'col-pulse 2s ease-in-out infinite',
           border: `2px solid ${color}cc`,
         }}
       >

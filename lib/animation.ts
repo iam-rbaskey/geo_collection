@@ -15,19 +15,8 @@ export const triggerUserMarkerAnim = (el: HTMLElement | null) => {
 };
 
 export const triggerCollectibleHoverAnim = (el: HTMLElement | null) => {
+  // Removed floating animation as per requirement
   if (!el) return;
-  el.animate(
-    [
-      { transform: 'translateY(-5px) rotate(0deg)', boxShadow: '0px 0px 15px 5px #00ffd5' },
-      { transform: 'translateY(5px) rotate(360deg)', boxShadow: '0px 0px 25px 15px #00ffd5' }
-    ],
-    {
-      duration: 3000,
-      iterations: Infinity,
-      direction: 'alternate',
-      easing: 'ease-in-out'
-    }
-  );
 };
 
 export const triggerBurstAnim = (el: HTMLElement | null, onComplete?: () => void) => {
@@ -58,6 +47,31 @@ export const triggerPopupScore = (el: HTMLElement | null) => {
     {
       duration: 600,
       easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)'
+    }
+  );
+};
+
+/**
+ * Animate route line drawing from start to end using anime.js
+ * @param pathElement - SVG path or line element to animate
+ * @param duration - Animation duration in ms
+ */
+export const animateRouteLine = (pathElement: SVGPathElement | null, duration = 2000) => {
+  if (!pathElement) return;
+  
+  const length = pathElement.getTotalLength();
+  pathElement.style.strokeDasharray = `${length}`;
+  pathElement.style.strokeDashoffset = `${length}`;
+  
+  pathElement.animate(
+    [
+      { strokeDashoffset: length },
+      { strokeDashoffset: 0 }
+    ],
+    {
+      duration,
+      easing: 'ease-in-out',
+      fill: 'forwards'
     }
   );
 };

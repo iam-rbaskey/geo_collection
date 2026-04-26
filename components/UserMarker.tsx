@@ -17,6 +17,7 @@ export const UserMarker = () => {
     >
       <div
         ref={wrapperRef}
+        data-avatar-pulse="true"
         style={{
           width: 56,
           height: 56,
@@ -28,6 +29,8 @@ export const UserMarker = () => {
           alignItems: 'center',
           justifyContent: 'center',
           overflow: 'hidden',
+          transformOrigin: 'center center',
+          willChange: 'transform, filter',
         }}
       >
         <Image

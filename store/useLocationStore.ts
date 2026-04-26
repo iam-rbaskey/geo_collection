@@ -17,6 +17,7 @@ export const useLocationStore = create<LocationState>((set) => ({
   requestPermission: () => {
     set({ isLocating: true });
     if ('geolocation' in navigator) {
+      // Safari requires more explicit permission handling
       navigator.geolocation.getCurrentPosition(
         (position) => {
           set({
@@ -27,13 +28,46 @@ export const useLocationStore = create<LocationState>((set) => ({
             permissionGranted: true,
             isLocating: false,
           });
+          // Start watching position for continuous updates
+          navigator.geolocation.watchPosition(
+            (pos) => {
+              set({
+                userLocation: {
+                  lat: pos.coords.latitude,
+                  lng: pos.coords.longitude,
+                },
+              });
+            },
+            (error) => {
+              console.error("Error watching location", error);
+            },
+            {
+              enableHighAccuracy: true,
+              timeout: 10000,
+              maximumAge: 0
+            }
+          );
         },
         (error) => {
           console.error("Error getting location", error);
+          // Provide more specific error messages for Safari
+          if (error.code === error.PERMISSION_DENIED) {
+            alert('Location access denied. Please enable location services in your browser settings.');
+          } else if (error.code === error.POSITION_UNAVAILABLE) {
+            alert('Location information unavailable. Please check your device settings.');
+          } else if (error.code === error.TIMEOUT) {
+            alert('Location request timed out. Please try again.');
+          }
           set({ permissionGranted: false, isLocating: false });
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
         }
       );
     } else {
+      alert('Geolocation is not supported by your browser.');
       set({ permissionGranted: false, isLocating: false });
     }
   },
@@ -41,7 +75,7 @@ export const useLocationStore = create<LocationState>((set) => ({
   updateLocation: (lat, lng) => set({ userLocation: { lat, lng } }),
   
   setMockLocation: () => set({
-    userLocation: { lat: 40.7128, lng: -74.0060 }, // NYC Default
+    userLocation: { lat: 28.6139, lng: 77.2090 }, // Delhi, India
     permissionGranted: true,
     isLocating: false,
   })

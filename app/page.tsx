@@ -1,8 +1,8 @@
 "use client";
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { MapView } from '@/components/MapView';
 import { ControlPanel } from '@/components/ControlPanel';
-import { ScoreDisplay } from '@/components/ScoreDisplay';
+import { Navbar } from '@/components/Navbar';
 import { useLocationStore } from '@/store/useLocationStore';
 import { useGameStore } from '@/store/useGameStore';
 import { fetchRoadRoutes } from '@/lib/routing';
@@ -10,6 +10,27 @@ import { fetchRoadRoutes } from '@/lib/routing';
 export default function Home() {
   const { userLocation } = useLocationStore();
   const { currentTarget, setRouteSet } = useGameStore();
+
+  // Optimize viewport for mobile devices
+  useEffect(() => {
+    // Set viewport meta tag for proper mobile scaling
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+      viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'viewport';
+      meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';
+      document.head.appendChild(meta);
+    }
+
+    // Prevent pull-to-refresh on mobile
+    document.body.style.overscrollBehavior = 'none';
+    
+    // Handle safe area insets for notched devices
+    document.documentElement.style.setProperty('--safe-area-inset-top', 'env(safe-area-inset-top)');
+    document.documentElement.style.setProperty('--safe-area-inset-bottom', 'env(safe-area-inset-bottom)');
+  }, []);
 
   const handleCenterMap = useCallback(() => {
     // MapView tracks location automatically, trigger zoom if implemented
@@ -26,23 +47,24 @@ export default function Home() {
   }, [userLocation, currentTarget, setRouteSet]);
 
   return (
-    <main style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', background: '#0b0f14' }}>
+    <main className="relative w-screen h-screen overflow-hidden bg-background" style={{ 
+      width: '100vw', 
+      height: '100vh',
+      overflow: 'hidden',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0
+    }}>
       <MapView />
 
-      <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-between p-4 md:p-6 pb-8">
-        <div className="flex justify-between items-start w-full">
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-primary/20 backdrop-blur-md rounded-xl border border-primary/50 flex items-center justify-center pointer-events-auto">
-              <span className="w-3 h-3 bg-primary rounded-full animate-pulse shadow-[0_0_10px_#00ffd5]"></span>
-            </div>
-            <span className="text-sm font-medium text-primary shadow-sm bg-background/50 px-2 py-1 rounded backdrop-blur border border-white/5 pointer-events-auto">
-               {userLocation ? 'Tracking Active' : 'Waiting for GPS...'}
-            </span>
-          </div>
-          <ScoreDisplay />
-        </div>
+      {/* Navbar */}
+      <Navbar />
 
-        <div className="flex justify-end lg:w-80 w-full ml-auto">
+      {/* Control Panel - Bottom Right */}
+      <div className="fixed bottom-0 right-0 z-10 pointer-events-none p-3 sm:p-4">
+        <div className="pointer-events-auto">
           <ControlPanel 
             onCenterMap={handleCenterMap}
             onNavigateTarget={handleNavigateTarget}

@@ -19,7 +19,7 @@ const enqueue = <T>(task: () => Promise<T>): Promise<T> => {
 
 // ─── OSRM fetch helpers (queued) ───────────────────────────────────────────────
 
-const osrmFetch = (url: string, timeout = 12000): Promise<Response> =>
+const osrmFetch = (url: string, timeout = 15000): Promise<Response> =>
   enqueue(() => fetch(url, { signal: AbortSignal.timeout(timeout) }));
 
 // ─── Route fetching ───────────────────────────────────────────────────────────
@@ -73,7 +73,7 @@ export const snapToNearestRoad = async (
 ): Promise<{ lng: number; lat: number }> => {
   try {
     const url = `https://router.project-osrm.org/nearest/v1/${profile}/${lng},${lat}?number=1`;
-    const res = await osrmFetch(url, 8000);
+    const res = await osrmFetch(url, 10000);
     if (!res.ok) throw new Error(`OSRM nearest ${res.status}`);
     const data = await res.json();
     if (data.code !== 'Ok' || !data.waypoints?.length) throw new Error('No waypoint');

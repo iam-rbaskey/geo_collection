@@ -26,15 +26,15 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ onCenterMap, onNavig
   };
 
   return (
-    <div className="flex flex-col gap-3 pointer-events-auto">
-      <div className="flex flex-col bg-secondary/80 backdrop-blur-md rounded-2xl border border-white/10 shadow-lg p-2 gap-2">
+    <div className="flex flex-col gap-2 sm:gap-3 pointer-events-auto">
+      <div className="flex flex-col bg-secondary/80 backdrop-blur-md rounded-xl sm:rounded-2xl border border-white/10 shadow-lg p-1.5 sm:p-2 gap-1.5 sm:gap-2">
         {!permissionGranted && (
           <button 
             onClick={requestPermission}
-            className="flex items-center gap-2 p-3 rounded-xl bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2 p-2.5 sm:p-3 rounded-lg sm:rounded-xl bg-primary text-primary-foreground font-medium hover:opacity-90 transition-opacity text-sm"
             disabled={isLocating}
           >
-            <Navigation className="w-5 h-5" />
+            <Navigation className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>{isLocating ? 'Locating...' : 'Enable Location'}</span>
           </button>
         )}
@@ -43,23 +43,23 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ onCenterMap, onNavig
           <>
             <button 
               onClick={onCenterMap}
-              className="flex items-center justify-center p-3 rounded-xl hover:bg-white/5 text-foreground transition-colors"
+              className="flex items-center justify-center p-2.5 sm:p-3 rounded-lg sm:rounded-xl hover:bg-white/5 text-foreground transition-colors"
               title="Center Map"
             >
-              <LocateFixed className="w-5 h-5" />
+              <LocateFixed className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
             <button
               onClick={handleSpawn}
               disabled={isSpawning}
-              className="flex items-center justify-center p-3 rounded-xl hover:bg-white/5 text-foreground transition-colors disabled:opacity-50"
+              className="flex items-center justify-center p-2.5 sm:p-3 rounded-lg sm:rounded-xl hover:bg-white/5 text-foreground transition-colors disabled:opacity-50"
               title={isSpawning ? 'Snapping to roads…' : 'Spawn Collectibles'}
             >
-              <RefreshCw className={`w-5 h-5 ${isSpawning ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-4 h-4 sm:w-5 sm:h-5 ${isSpawning ? 'animate-spin' : ''}`} />
             </button>
             <button 
               onClick={onNavigateTarget}
               className={clsx(
-                "flex items-center justify-center p-3 rounded-xl transition-colors",
+                "flex items-center justify-center p-2.5 sm:p-3 rounded-lg sm:rounded-xl transition-colors",
                 currentTarget 
                   ? "bg-primary text-primary-foreground hover:opacity-90" 
                   : "hover:bg-white/5 text-muted-foreground"
@@ -67,7 +67,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ onCenterMap, onNavig
               title="Start Navigation"
               disabled={!currentTarget}
             >
-              <MapIcon className="w-5 h-5" />
+              <MapIcon className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </>
         )}
@@ -76,7 +76,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ onCenterMap, onNavig
       {!permissionGranted && (
         <button 
           onClick={setMockLocation}
-          className="text-xs text-muted-foreground underline text-center"
+          className="text-[10px] sm:text-xs text-muted-foreground underline text-center py-1"
         >
           Use Mock Location
         </button>
