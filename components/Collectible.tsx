@@ -24,7 +24,7 @@ export const CollectibleNode: React.FC<CollectibleNodeProps> = ({
   const color = RARITY_COLOR[rarity];
   const glow  = RARITY_GLOW[rarity];
   const def   = getAvatarById(avatarId);
-  const emoji = def?.emoji ?? '●';
+  const image = def?.image_path ?? '/characters/man.png';
 
   // Shared keyframes
   useEffect(() => {
@@ -94,7 +94,6 @@ export const CollectibleNode: React.FC<CollectibleNodeProps> = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: 22,
           position: 'relative',
           animation: 'col-float 3s ease-in-out infinite',
           /* CSS custom property for glow animation */
@@ -102,7 +101,7 @@ export const CollectibleNode: React.FC<CollectibleNodeProps> = ({
           boxShadow: `0 0 14px 3px ${glow}44, 0 0 4px 1px ${glow}`,
         }}
       >
-        {emoji}
+        <img src={image} alt={def?.label ?? 'Avatar'} style={{ width: 28, height: 28, objectFit: 'contain' }} />
 
         {/* Rarity ring pulse */}
         <div style={{

@@ -56,7 +56,6 @@ export const fetchRoadRoutes = async (
       alternatives: rest.slice(0, 2).map(toFeature),
     };
   } catch (err) {
-    console.warn('OSRM routing failed, using straight-line fallback:', err);
     return {
       primary: straightLine(startLng, startLat, endLng, endLat),
       alternatives: [],

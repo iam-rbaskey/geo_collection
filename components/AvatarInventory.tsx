@@ -96,9 +96,9 @@ export const AvatarInventory: React.FC<AvatarInventoryProps> = ({ onClose }) => 
               background: 'rgba(0,255,213,0.12)',
               border: '2px solid rgba(0,255,213,0.4)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 24, flexShrink: 0,
+              flexShrink: 0, overflow: 'hidden'
             }}>
-              {selectedAvatarId ? (getAvatarById(selectedAvatarId)?.emoji ?? '🧑') : '🧑'}
+              <img src={selectedAvatarId ? (getAvatarById(selectedAvatarId)?.image_path ?? '/characters/man.png') : '/characters/man.png'} alt="Selected Avatar" style={{ width: 36, height: 36, objectFit: 'contain' }} />
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 6 }}>
@@ -136,7 +136,7 @@ export const AvatarInventory: React.FC<AvatarInventoryProps> = ({ onClose }) => 
               display: 'flex', flexDirection: 'column', alignItems: 'center',
               justifyContent: 'center', padding: '40px 20px', gap: 12,
             }}>
-              <div style={{ fontSize: 48, opacity: 0.4 }}>🗺️</div>
+              <div style={{ width: 64, height: 64, opacity: 0.4, border: '2px dashed #475569', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} />
               <p style={{ fontSize: 14, color: '#475569', textAlign: 'center', lineHeight: 1.5 }}>
                 No avatars collected yet.<br />
                 Explore the map to find them!
@@ -165,15 +165,15 @@ export const AvatarInventory: React.FC<AvatarInventoryProps> = ({ onClose }) => 
                       boxShadow: `0 4px 16px ${color}18`,
                     }}
                   >
-                    {/* Emoji */}
+                    {/* Image */}
                     <div style={{
                       width: 52, height: 52, borderRadius: '50%',
                       background: `${color}18`,
                       border: `2px solid ${color}66`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 26,
+                      overflow: 'hidden'
                     }}>
-                      {def.emoji}
+                      <img src={def.image_path} alt={def.label} style={{ width: 36, height: 36, objectFit: 'contain' }} />
                     </div>
 
                     {/* Name */}

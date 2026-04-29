@@ -147,16 +147,15 @@ export const AvatarSelectModal: React.FC<AvatarSelectModalProps> = ({ onComplete
                 </div>
               )}
 
-              {/* Avatar emoji / icon */}
+              {/* Avatar image / icon */}
               <div style={{
                 width: 72, height: 72, borderRadius: '50%',
                 background: isSelected ? 'rgba(0,255,213,0.18)' : 'rgba(255,255,255,0.05)',
                 border: `2px solid ${isSelected ? 'rgba(0,255,213,0.6)' : 'rgba(255,255,255,0.1)'}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 36,
                 transition: 'all 0.25s ease',
               }}>
-                {avatar.emoji}
+                <img src={avatar.image_path} alt={avatar.label} style={{ width: 48, height: 48, objectFit: 'contain' }} />
               </div>
 
               {/* Avatar label */}

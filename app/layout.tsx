@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { FloatingNavbar } from "@/components/FloatingNavbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,7 +55,9 @@ export default function RootLayout({
         WebkitOverflowScrolling: 'touch',
         WebkitTouchCallout: 'none',
         WebkitUserSelect: 'none',
-      }}>{children}</body>
+      }}>{children}
+      <FloatingNavbar />
+      </body>
     </html>
   );
 }

@@ -34,58 +34,61 @@ export interface AvatarDef {
   avatar_id: string;
   avatar_type: 'starter' | 'collectible';
   label: string;
-  emoji: string;       // used for mini icon on map marker
+  image_path: string;       // replaced emoji with image_path
   rarity: AvatarRarity;
-  /** Fractional energy multiplier bonus (0 = none) */
   energy_bonus: number;
-  /** Extra points bonus on zone unlock */
   zone_bonus: number;
 }
 
-/** Starter avatars (player character selection) */
 export const STARTER_AVATARS: AvatarDef[] = [
   {
-    avatar_id: 'male_basic',
+    avatar_id: 'male_default',
     avatar_type: 'starter',
-    label: 'Male Avatar',
-    emoji: '🧑',
+    label: 'Male Explorer',
+    image_path: '/characters/man.png',
     rarity: 'basic',
     energy_bonus: 0,
     zone_bonus: 0,
   },
   {
-    avatar_id: 'female_basic',
+    avatar_id: 'female_default',
     avatar_type: 'starter',
-    label: 'Female Avatar',
-    emoji: '👩',
+    label: 'Female Explorer',
+    image_path: '/characters/woman.png',
     rarity: 'basic',
     energy_bonus: 0,
     zone_bonus: 0,
   },
 ];
 
-/** Collectible avatars that spawn on the map */
 export const COLLECTIBLE_AVATAR_POOL: AvatarDef[] = [
   // basic
-  { avatar_id: 'ninja',       avatar_type: 'collectible', label: 'Ninja',       emoji: '🥷', rarity: 'basic',     energy_bonus: 0,    zone_bonus: 0  },
-  { avatar_id: 'astronaut',   avatar_type: 'collectible', label: 'Astronaut',   emoji: '👨‍🚀', rarity: 'basic',    energy_bonus: 0,    zone_bonus: 0  },
-  { avatar_id: 'detective',   avatar_type: 'collectible', label: 'Detective',   emoji: '🕵️', rarity: 'basic',     energy_bonus: 0,    zone_bonus: 0  },
-  { avatar_id: 'zombie',      avatar_type: 'collectible', label: 'Zombie',      emoji: '🧟', rarity: 'basic',     energy_bonus: 0,    zone_bonus: 0  },
+  { avatar_id: 'knight',       avatar_type: 'collectible', label: 'Knight',       image_path: '/characters/knight.png', rarity: 'basic',     energy_bonus: 0,    zone_bonus: 0  },
+  { avatar_id: 'pirate',       avatar_type: 'collectible', label: 'Pirate',       image_path: '/characters/pirate.png', rarity: 'basic',    energy_bonus: 0,    zone_bonus: 0  },
+  { avatar_id: 'mask',         avatar_type: 'collectible', label: 'Mask',         image_path: '/characters/mask.png', rarity: 'basic',     energy_bonus: 0,    zone_bonus: 0  },
+  { avatar_id: 'defenders',    avatar_type: 'collectible', label: 'Defenders',    image_path: '/characters/defenders.png', rarity: 'basic',     energy_bonus: 0,    zone_bonus: 0  },
   // rare
-  { avatar_id: 'wizard',      avatar_type: 'collectible', label: 'Wizard',      emoji: '🧙', rarity: 'rare',      energy_bonus: 0.15, zone_bonus: 10 },
-  { avatar_id: 'cyborg',      avatar_type: 'collectible', label: 'Cyborg',      emoji: '🤖', rarity: 'rare',      energy_bonus: 0.15, zone_bonus: 10 },
-  { avatar_id: 'samurai',     avatar_type: 'collectible', label: 'Samurai',     emoji: '⚔️', rarity: 'rare',      energy_bonus: 0.15, zone_bonus: 10 },
+  { avatar_id: 'wizard',       avatar_type: 'collectible', label: 'Wizard',       image_path: '/characters/wizard.png', rarity: 'rare',      energy_bonus: 0.15, zone_bonus: 10 },
+  { avatar_id: 'spiderman',    avatar_type: 'collectible', label: 'Spiderman',    image_path: '/characters/spiderman.png', rarity: 'rare',      energy_bonus: 0.15, zone_bonus: 10 },
+  { avatar_id: 'deadpool',     avatar_type: 'collectible', label: 'Deadpool',     image_path: '/characters/deadpool.png', rarity: 'rare',      energy_bonus: 0.15, zone_bonus: 10 },
+  { avatar_id: 'superhero',    avatar_type: 'collectible', label: 'Superhero',    image_path: '/characters/superhero.png', rarity: 'rare',      energy_bonus: 0.15, zone_bonus: 10 },
+  { avatar_id: 'superheroe',   avatar_type: 'collectible', label: 'Heroine',      image_path: '/characters/superheroe.png', rarity: 'rare',      energy_bonus: 0.15, zone_bonus: 10 },
+  { avatar_id: 'batman',       avatar_type: 'collectible', label: 'Batman',       image_path: '/characters/batman.png', rarity: 'rare',      energy_bonus: 0.15, zone_bonus: 10 },
   // epic
-  { avatar_id: 'dragon',      avatar_type: 'collectible', label: 'Dragon',      emoji: '🐉', rarity: 'epic',      energy_bonus: 0.30, zone_bonus: 25 },
-  { avatar_id: 'phoenix',     avatar_type: 'collectible', label: 'Phoenix',     emoji: '🦅', rarity: 'epic',      energy_bonus: 0.30, zone_bonus: 25 },
+  { avatar_id: 'blkpanther',   avatar_type: 'collectible', label: 'Panther',      image_path: '/characters/blkpanther.png', rarity: 'epic',      energy_bonus: 0.30, zone_bonus: 25 },
+  { avatar_id: 'capamerica',   avatar_type: 'collectible', label: 'Captain',      image_path: '/characters/capamerica.png', rarity: 'epic',      energy_bonus: 0.30, zone_bonus: 25 },
+  { avatar_id: 'ironman',      avatar_type: 'collectible', label: 'Ironman',      image_path: '/characters/ironman.png', rarity: 'epic',      energy_bonus: 0.30, zone_bonus: 25 },
+  { avatar_id: 'thor',         avatar_type: 'collectible', label: 'Thor',         image_path: '/characters/thor.png', rarity: 'epic',      energy_bonus: 0.30, zone_bonus: 25 },
+  { avatar_id: 'wolverine',    avatar_type: 'collectible', label: 'Wolverine',    image_path: '/characters/wolverine.png', rarity: 'epic',      energy_bonus: 0.30, zone_bonus: 25 },
+  { avatar_id: 'superman',     avatar_type: 'collectible', label: 'Superman',     image_path: '/characters/superman.png', rarity: 'epic',      energy_bonus: 0.30, zone_bonus: 25 },
   // legendary
-  { avatar_id: 'god_mode',    avatar_type: 'collectible', label: 'God Mode',    emoji: '✨', rarity: 'legendary', energy_bonus: 0.50, zone_bonus: 50 },
-  { avatar_id: 'shadow_king', avatar_type: 'collectible', label: 'Shadow King', emoji: '👑', rarity: 'legendary', energy_bonus: 0.50, zone_bonus: 50 },
+  { avatar_id: 'gundam',       avatar_type: 'collectible', label: 'Gundam',       image_path: '/characters/gundam.png', rarity: 'legendary', energy_bonus: 0.50, zone_bonus: 50 },
+  { avatar_id: 'grim-reaper',  avatar_type: 'collectible', label: 'Grim Reaper',  image_path: '/characters/grim-reaper.png', rarity: 'legendary', energy_bonus: 0.50, zone_bonus: 50 },
+  { avatar_id: 'king',         avatar_type: 'collectible', label: 'King',         image_path: '/characters/king.png', rarity: 'legendary', energy_bonus: 0.50, zone_bonus: 50 },
+  { avatar_id: 'god',          avatar_type: 'collectible', label: 'God',          image_path: '/characters/god.png', rarity: 'legendary', energy_bonus: 0.50, zone_bonus: 50 },
 ];
 
-/** Pick a random collectible avatar, weighted by rarity */
 export function pickRandomCollectibleAvatar(): AvatarDef {
-  // Weights: basic 55%, rare 28%, epic 12%, legendary 5%
   const roll = Math.random();
   let pool: AvatarDef[];
   if (roll < 0.55)       pool = COLLECTIBLE_AVATAR_POOL.filter(a => a.rarity === 'basic');
@@ -99,8 +102,6 @@ export function getAvatarById(id: string): AvatarDef | undefined {
   return [...STARTER_AVATARS, ...COLLECTIBLE_AVATAR_POOL].find(a => a.avatar_id === id);
 }
 
-// ─── Leveling formula ─────────────────────────────────────────────────────────
-/** XP required to reach the next level from the given level */
 export function xpForLevel(level: number): number {
   return Math.floor(100 * Math.pow(1.2, level - 1));
 }

@@ -39,7 +39,7 @@ export const useLocationStore = create<LocationState>((set) => ({
               });
             },
             (error) => {
-              console.error("Error watching location", error);
+              // Ignore watch errors silently
             },
             {
               enableHighAccuracy: true,
@@ -49,8 +49,6 @@ export const useLocationStore = create<LocationState>((set) => ({
           );
         },
         (error) => {
-          console.error("Error getting location", error);
-          // Provide more specific error messages for Safari
           if (error.code === error.PERMISSION_DENIED) {
             alert('Location access denied. Please enable location services in your browser settings.');
           } else if (error.code === error.POSITION_UNAVAILABLE) {
@@ -75,7 +73,7 @@ export const useLocationStore = create<LocationState>((set) => ({
   updateLocation: (lat, lng) => set({ userLocation: { lat, lng } }),
   
   setMockLocation: () => set({
-    userLocation: { lat: 28.6139, lng: 77.2090 }, // Delhi, India
+    userLocation: { lat: 22.6958, lng: 88.3533 }, // Kolkata, India
     permissionGranted: true,
     isLocating: false,
   })

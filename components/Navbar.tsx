@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useGameStore } from '../store/useGameStore';
 import { useAvatarStore } from '../store/useAvatarStore';
-import { Trophy, Target, ChevronUp } from 'lucide-react';
+import { Trophy, Target, ChevronUp, Globe } from 'lucide-react';
 import { AvatarInventory } from './AvatarInventory';
 import { getAvatarById, xpForLevel } from '../lib/avatars';
 
@@ -36,9 +36,9 @@ export const Navbar = () => {
                   background: 'rgba(0,255,213,0.12)',
                   border: '1.5px solid rgba(0,255,213,0.4)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 18, flexShrink: 0, position: 'relative',
+                  flexShrink: 0, position: 'relative', overflow: 'hidden'
                 }}>
-                  {selectedDef?.emoji ?? '🧑'}
+                  <img src={selectedDef?.image_path ?? '/characters/man.png'} alt={selectedDef?.label ?? 'Avatar'} style={{ width: 24, height: 24, objectFit: 'contain' }} />
                   {/* Inventory count badge */}
                   {inventory.length > 0 && (
                     <div style={{
@@ -77,7 +77,7 @@ export const Navbar = () => {
               {/* Center: Logo (hidden on xs) */}
               <div className="hidden sm:flex items-center gap-2">
                 <div className="w-8 h-8 bg-primary/20 rounded-xl flex items-center justify-center border border-primary/50">
-                  <span style={{ fontSize: 16 }}>🌍</span>
+                  <Globe className="w-4 h-4 text-primary" />
                 </div>
                 <div>
                   <h1 className="text-sm font-bold text-foreground tracking-wide">GEO COLLECT</h1>
@@ -85,7 +85,7 @@ export const Navbar = () => {
                 </div>
               </div>
 
-              {/* Right: Score + Items */}
+              {/* Right: Score + Items + Logout */}
               <div className="flex items-center gap-2 sm:gap-4">
                 {/* Score */}
                 <div className="flex items-center gap-1.5 sm:gap-2 bg-background/50 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-xl border border-primary/20">
@@ -99,7 +99,7 @@ export const Navbar = () => {
                 </div>
 
                 {/* Remaining Items */}
-                <div className="flex items-center gap-1.5 sm:gap-2 bg-background/50 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-xl border border-white/10">
+                <div className="flex items-center gap-1.5 sm:gap-2 bg-background/50 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-xl border border-white/10 hidden sm:flex">
                   <Target className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-foreground" />
                   <div className="flex flex-col">
                     <span className="text-[9px] sm:text-[10px] text-muted-foreground uppercase tracking-wider">Items</span>
@@ -108,6 +108,24 @@ export const Navbar = () => {
                     </span>
                   </div>
                 </div>
+
+                {/* Logout */}
+                <button 
+                  onClick={async () => {
+                    const { createClient } = await import('@/utils/supabase/client');
+                    const supabase = createClient();
+                    await supabase.auth.signOut();
+                    window.location.reload();
+                  }}
+                  className="flex items-center justify-center p-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 transition-colors pointer-events-auto cursor-pointer"
+                  title="Logout"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                  </svg>
+                </button>
               </div>
 
             </div>

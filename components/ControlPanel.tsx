@@ -19,8 +19,30 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({ onCenterMap, onNavig
   const handleSpawn = async () => {
     if (!userLocation || isSpawning) return;
     setIsSpawning(true);
-    const items = await generateCollectibles(userLocation.lat, userLocation.lng, 8, 1000);
-    setCollectibles(items);
+    
+    try {
+      const { createClient } = await import('@/utils/supabase/client');
+      const supabase = createClient();
+      const { data, error } = await supabase.from('collectibles').select('*');
+      
+      if (!error && data) {
+        const { RARITY_POINTS } = await import('@/lib/avatars');
+        const mapped = data.map(dbCol => ({
+          id: dbCol.id,
+          lat: dbCol.lat,
+          lng: dbCol.lng,
+          collected: false,
+          points: RARITY_POINTS[dbCol.rarity as keyof typeof RARITY_POINTS] || 10,
+          distanceMeters: 0,
+          avatarId: dbCol.character, 
+          rarity: dbCol.rarity as any
+        }));
+        setCollectibles(mapped);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+    
     setRouteSet(null);
     setIsSpawning(false);
   };

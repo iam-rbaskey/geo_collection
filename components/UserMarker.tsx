@@ -1,9 +1,15 @@
 "use client";
 import React, { useRef } from 'react';
 import Image from 'next/image';
+import { useAvatarStore } from '../store/useAvatarStore';
+import { getAvatarById } from '../lib/avatars';
 
 export const UserMarker = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const { selectedAvatarId } = useAvatarStore();
+  const selectedDef = selectedAvatarId ? getAvatarById(selectedAvatarId) : null;
+  const imagePath = selectedDef?.image_path ?? '/characters/man.png';
 
   return (
     <div
@@ -33,13 +39,10 @@ export const UserMarker = () => {
           willChange: 'transform, filter',
         }}
       >
-        <Image
-          src="/superhero.png"
+        <img
+          src={imagePath}
           alt="You"
-          width={46}
-          height={46}
-          style={{ objectFit: 'contain' }}
-          priority
+          style={{ width: 46, height: 46, objectFit: 'contain' }}
         />
       </div>
     </div>

@@ -164,9 +164,9 @@ const PROCESSING_DELAY  = 1500;  // simulate processing delay
 const ROUTE_STAGGER_MS  = 250;   // per-route start stagger
 
 // Colors (from spec)
-const COLOR_CANDIDATE   = '#90EE90';
-const COLOR_PRIMARY     = '#22c55e';
-const COLOR_ALT_FINAL   = '#ef4444';
+const COLOR_CANDIDATE   = '#38BDF8';
+const COLOR_PRIMARY     = '#22C55E';
+const COLOR_ALT_FINAL   = '#EF4444';
 
 // ─── Layer/source IDs ─────────────────────────────────────────────────────────
 const SRC_WAVE          = 'route-scan-wave';
@@ -218,7 +218,7 @@ export const MapView = () => {
     map.current = new maplibregl.Map({
       container: mapContainer.current,
       style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
-      center: [77.2090, 28.6139],
+      center: [88.3533, 22.6958],
       zoom: 14,
       attributionControl: false,
     });
@@ -325,7 +325,7 @@ export const MapView = () => {
   // ─── Seed zones + territories ────────────────────────────────────────────
   useEffect(() => {
     if (!mapLoaded) return;
-    const center = { lng: 77.2090, lat: 28.6139 };
+    const center = { lng: 88.3533, lat: 22.6958 };
     setZones(generateDemoZones(center.lng, center.lat));
     setTerritories(generateDemoTerritories(center.lng, center.lat));
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -849,28 +849,39 @@ export const MapView = () => {
 
   // ─── Render ───────────────────────────────────────────────────────────────
   return (
-    <div
-      ref={mapContainer}
-      style={{
-        position: 'absolute', inset: 0,
-        width: '100%', height: '100%',
-        opacity: mapLoaded ? 1 : 0,
-        transition: 'opacity 1.2s ease-in-out',
-      }}
-    >
+    <div style={{ position: 'absolute', inset: 0 }}>
+      <div
+        ref={mapContainer}
+        style={{
+          width: '100%', height: '100%', position: 'absolute', top: 0, left: 0,
+          opacity: mapLoaded ? 1 : 0,
+          transition: 'opacity 1.2s ease-in-out',
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+          backgroundColor: '#0F172A',
+          opacity: 0.35,
+          pointerEvents: 'none',
+          mixBlendMode: 'overlay',
+          zIndex: 1
+        }}
+      />
+
       {fetchingCount > 0 && (
         <div style={{
           position: 'absolute', top: 16, right: 16, zIndex: 20,
           background: 'rgba(14,20,27,0.75)',
-          border: '1px solid rgba(144,238,144,0.3)',
+          border: '1px solid rgba(56,189,248,0.3)',
           backdropFilter: 'blur(8px)', borderRadius: 10,
           padding: '5px 12px', display: 'flex', alignItems: 'center',
-          gap: 7, color: '#90EE90', fontSize: 11, fontWeight: 500,
+          gap: 7, color: COLOR_CANDIDATE, fontSize: 11, fontWeight: 500,
           pointerEvents: 'none',
         }}>
           <span style={{
             width: 6, height: 6, borderRadius: '50%',
-            background: '#90EE90', display: 'inline-block',
+            background: COLOR_CANDIDATE, display: 'inline-block',
             animation: 'pulse 1s infinite',
           }} />
           Caching routes…

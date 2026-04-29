@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Geo Collect: Hunt & Collect
 
-## Getting Started
+![Geo Collect Banner](/public/auth_bg.png)
 
-First, run the development server:
+> **A Real-World Interactive Location-Based Experience**
+
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+
+## 📖 Project Description
+
+Geo Collect is a modern, high-performance geospatial game engine that blends real-world exploration with engaging collectible mechanics. Built with a sleek cyber-aesthetic and powered by Next.js and Supabase, players explore their physical surroundings (mapped digitally) to collect characters, acquire powers, and unlock hidden zones.
+
+## 🎮 Game Concept
+
+The world is your inventory. By physically navigating the real world or exploring the interactive map, players discover collectibles that range from recognizable characters (like Batman, Spiderman) to powerful abilities (Thunder, Dragon, Shield). Energy is consumed as you travel and recharges over time. Progressing through the game unlocks new map zones, yielding rarer collectibles and higher score multipliers.
+
+## ✨ Features
+
+- **Real-world location-based gameplay**: Explore a dynamic map integrated directly with real-world geography.
+- **Character collection system**: Find, collect, and switch your avatar to legendary characters.
+- **Power acquisition system**: Stack and activate powers like Thunder, Dragon, or Radar.
+- **Energy-based movement**: Strategic movement mechanics tied to a replenishing energy bar.
+- **Zone unlocking**: Discover new territories as you level up.
+- **Multi-route navigation**: Advanced routing engine showing optimal paths to collectibles.
+- **Admin-controlled collectible placement**: Tools for manual management and dynamic spawning.
+
+## 🚀 Gameplay Overview
+
+1. **Initialize**: Log in and select your starter avatar (Male/Female).
+2. **Explore**: Observe the map and identify nearby Collectible Markers.
+3. **Navigate**: Use the routing engine to find the best path to your target.
+4. **Collect**: Reach the destination to earn points, level up, and acquire the character/power.
+5. **Progress**: Gain enough XP to level up, expanding your energy pool and unlocking restricted zones.
+
+## 🛠 Technology Stack
+
+- **Frontend Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript (Strict Mode)
+- **Styling**: Tailwind CSS + Vanilla CSS Modules (Glassmorphism & Cyber UI)
+- **State Management**: Zustand (Modular stores for Game, Avatar, Energy, Location)
+- **Database & Auth**: Supabase (PostgreSQL, Row Level Security, Auth)
+- **Map Engine**: Leaflet / React-Leaflet
+- **Icons**: Lucide React
+
+## 🏗 Architecture Overview
+
+The codebase is organized following a strict modular architecture:
+- `components/`: UI layer (MapView, ControlPanel, AuthModal, EnergyBar).
+- `store/`: State management grouped by domain (`useGameStore`, `useAvatarStore`).
+- `lib/`: Core systems and utilities (`routing.ts`, `zones.ts`, `supabase.ts`).
+- `app/api/`: Secure server routes handling progression sync and authentication handshakes.
+
+## ⚙️ Installation Steps
+
+1. Clone the repository.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Copy the environment variables template and configure your Supabase instance:
+   ```bash
+   cp .env.example .env.local
+   ```
+4. Update `.env.local` with your Supabase URL and keys.
+
+## 💻 Development Setup
+
+Start the local development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the game engine in action.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🗺 Future Roadmap
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [ ] Multiplayer live-tracking (see other players on the map).
+- [ ] PvP Power interactions (use collected powers on other players).
+- [ ] Advanced AR (Augmented Reality) view for collectible capture.
+- [ ] Push notifications for idle energy recharge completion.
 
-## Learn More
+## 🤝 Credits
 
-To learn more about Next.js, take a look at the following resources:
+- Map data provided by OpenStreetMap.
+- Routing powered by OSRM.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 👨‍💻 About the Creator
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Your Name**  
+*Full Stack Developer*  
+Developer building real-world interactive location-based experiences.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🔗 [GitHub](#) | 🔗 [LinkedIn](#) | 🔗 [Portfolio](#)
