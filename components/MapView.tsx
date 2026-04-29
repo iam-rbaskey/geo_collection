@@ -11,6 +11,8 @@ import { CollectibleNode } from './Collectible';
 import { calculateDistance, COLLECTION_RADIUS_METERS } from '../lib/map';
 import { fetchRoadRoutes } from '../lib/routing';
 import { generateDemoZones, generateDemoTerritories, ZONE_COLORS } from '../lib/zones';
+import { getAvatarById } from '../lib/avatars';
+import { triggerAcquisitionAnimation } from '../lib/animation';
 import type { RouteSet } from '../lib/routing';
 
 const EMPTY_COLLECTION: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: [] };
@@ -833,6 +835,8 @@ export const MapView = () => {
       level_points: col.points
     });
     collectItem(col.id);
+    const def = getAvatarById(col.avatarId);
+    triggerAcquisitionAnimation(def?.image_path || '/characters/man.png');
     colMapMarkers.current[col.id]?.remove();
     delete colMapMarkers.current[col.id];
     setBurstingIds(prev => { const n = new Set(prev); n.delete(col.id); return n; });

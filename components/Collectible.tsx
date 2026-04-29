@@ -37,14 +37,6 @@ export const CollectibleNode: React.FC<CollectibleNodeProps> = ({
         60%  { opacity: 1; transform: translate(-50%, -28px) scale(1.2); }
         100% { opacity: 0; transform: translate(-50%, -44px) scale(0.9); }
       }
-      @keyframes col-float {
-        0%, 100% { transform: translateY(0px); }
-        50%       { transform: translateY(-4px); }
-      }
-      @keyframes col-idle-pulse {
-        0%, 100% { box-shadow: 0 0 10px 2px var(--col-glow); }
-        50%       { box-shadow: 0 0 22px 6px var(--col-glow); }
-      }
     `;
     document.head.appendChild(s);
   }, []);
@@ -95,8 +87,6 @@ export const CollectibleNode: React.FC<CollectibleNodeProps> = ({
           alignItems: 'center',
           justifyContent: 'center',
           position: 'relative',
-          animation: 'col-float 3s ease-in-out infinite',
-          /* CSS custom property for glow animation */
           ['--col-glow' as string]: `${glow}66`,
           boxShadow: `0 0 14px 3px ${glow}44, 0 0 4px 1px ${glow}`,
         }}
@@ -108,7 +98,6 @@ export const CollectibleNode: React.FC<CollectibleNodeProps> = ({
           position: 'absolute', inset: -4,
           borderRadius: '50%',
           border: `1.5px solid ${color}55`,
-          animation: 'col-idle-pulse 2s ease-in-out infinite',
           pointerEvents: 'none',
         }} />
 

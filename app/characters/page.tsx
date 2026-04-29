@@ -1,9 +1,11 @@
 "use client";
 import React from 'react';
 import { COLLECTIBLE_AVATAR_POOL, RARITY_COLOR, RARITY_LABEL, RARITY_POINTS, STARTER_AVATARS } from '@/lib/avatars';
+import { useAvatarStore } from '@/store/useAvatarStore';
 
 export default function CharactersPage() {
   const allCharacters = [...STARTER_AVATARS, ...COLLECTIBLE_AVATAR_POOL];
+  const { inventory } = useAvatarStore();
 
   return (
     <div className="min-h-screen bg-background p-6 pb-32">
@@ -17,12 +19,16 @@ export default function CharactersPage() {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {allCharacters.map((def) => {
-            const color = RARITY_COLOR[def.rarity];
+            const isAcquired = inventory.some(i => i.avatar_id === def.avatar_id);
+            const color = isAcquired ? '#22c55e' : RARITY_COLOR[def.rarity];
+            const borderStyle = isAcquired ? `2px solid ${color}` : `1px solid rgba(255,255,255,0.05)`;
+            const bgStyle = isAcquired ? 'rgba(34,197,94,0.15)' : 'rgba(31,41,55,0.2)';
             
             return (
               <div 
                 key={def.avatar_id}
-                className="flex flex-col items-center gap-3 p-4 rounded-2xl bg-secondary/20 border border-white/5"
+                className="flex flex-col items-center gap-3 p-4 rounded-2xl transition-colors"
+                style={{ backgroundColor: bgStyle, border: borderStyle }}
               >
                 <div 
                   className="w-20 h-20 rounded-full flex items-center justify-center overflow-hidden"

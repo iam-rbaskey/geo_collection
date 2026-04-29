@@ -168,6 +168,10 @@ const AvatarIcon: React.FC<{ isActive: boolean }> = ({ isActive }) => {
 export const FloatingNavbar: React.FC = () => {
   const pathname = usePathname();
 
+  if (pathname === '/login' || pathname === '/auth') {
+    return null;
+  }
+
   return (
     <div
       className="fixed z-[100] flex justify-center pointer-events-none"

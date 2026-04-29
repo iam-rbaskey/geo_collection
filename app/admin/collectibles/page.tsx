@@ -21,6 +21,7 @@ export default function CollectiblesPage() {
   const [loading, setLoading] = useState(true);
 
   // Form State
+  const [assetType, setAssetType] = useState<'character' | 'power'>('character');
   const [newChar, setNewChar] = useState('batman');
   const [newLat, setNewLat] = useState(28.6139);
   const [newLng, setNewLng] = useState(77.2090);
@@ -50,7 +51,7 @@ export default function CollectiblesPage() {
     const newItem = {
       id: newId,
       character: newChar,
-      imagePath: `/characters/${newChar}.png`,
+      imagePath: `/${assetType}s/${newChar}.png`,
       lat: newLat,
       lng: newLng,
       rarity: newRarity,
@@ -171,15 +172,21 @@ export default function CollectiblesPage() {
             
             <div className="p-6 overflow-y-auto flex-1 flex flex-col gap-6">
               <div>
-                <label className="block text-sm font-bold text-slate-300 mb-2">Select Asset</label>
+                <label className="block text-sm font-bold text-slate-300 mb-2">Select Asset Type & Asset</label>
+                <div className="flex gap-2 mb-3">
+                  <button onClick={() => { setAssetType('character'); setNewChar('batman'); }} className={`px-4 py-1.5 rounded-full text-xs font-bold border ${assetType === 'character' ? 'bg-primary text-primary-foreground border-primary' : 'border-white/10 text-slate-400'}`}>Characters</button>
+                  <button onClick={() => { setAssetType('power'); setNewChar('flash'); }} className={`px-4 py-1.5 rounded-full text-xs font-bold border ${assetType === 'power' ? 'bg-primary text-primary-foreground border-primary' : 'border-white/10 text-slate-400'}`}>Powers</button>
+                </div>
                 <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
-                  {['batman', 'superman', 'spiderman', 'gundam', 'wizard', 'knight'].map(char => (
+                  {(assetType === 'character' 
+                    ? ['batman', 'superman', 'spiderman', 'gundam', 'wizard', 'knight'] 
+                    : ['flash', 'thor-hammer', 'bow-and-arrow', 'gas-mask', 'nuclear-bomb', 'rifle', 'weapon', 'dragon', 'hades', 'captain-america', 'movie', 'role-playing-game']).map(asset => (
                     <div 
-                      key={char} 
-                      onClick={() => setNewChar(char)}
-                      className={`aspect-square bg-white/5 border rounded-lg flex items-center justify-center p-2 cursor-pointer transition-colors ${newChar === char ? 'border-primary bg-primary/10' : 'border-white/10 hover:border-primary/50 hover:bg-primary/5'}`}
+                      key={asset} 
+                      onClick={() => setNewChar(asset)}
+                      className={`aspect-square bg-white/5 border rounded-lg flex items-center justify-center p-2 cursor-pointer transition-colors ${newChar === asset ? 'border-primary bg-primary/10' : 'border-white/10 hover:border-primary/50 hover:bg-primary/5'}`}
                     >
-                      <img src={`/characters/${char}.png`} alt={char} className="w-full h-full object-contain" />
+                      <img src={`/${assetType}s/${asset}.png`} alt={asset} className="w-full h-full object-contain" />
                     </div>
                   ))}
                 </div>
